@@ -30,7 +30,7 @@ export const GatewayProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setIsLoading(true);
     try {
       const devConfig = loadDevConfig();
-      console.log("devConfig", devConfig);
+
       dispatch(gatewayActions.setGatewayToken(devConfig.bearerToken));
       dispatch(gatewayApi.util.invalidateTags(["WhoAmI"]));
       dispatch(gatewayActions.setGatewayLocation(devConfig.locationId));

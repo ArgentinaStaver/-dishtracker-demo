@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 
 export type GatewayConfig = {
+  baseUrl: string;
   bearerToken: string;
   locationId: string;
   configName: string | null;
