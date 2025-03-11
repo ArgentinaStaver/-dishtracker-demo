@@ -1,7 +1,7 @@
 import { PaginatedProductsModel } from "./ProductModel";
-import { ProductResponseModel } from "./ProductResponseModel";
+import { PaginatedProductResponseModel } from "./ProductResponseModel";
 
-const mapProductResponseToModel = (product: ProductResponseModel): PaginatedProductsModel => ({
+const mapProductResponseToModel = (product: PaginatedProductResponseModel): PaginatedProductsModel => ({
   ...product,
 });
 

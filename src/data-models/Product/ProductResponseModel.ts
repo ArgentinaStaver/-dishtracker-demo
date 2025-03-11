@@ -8,12 +8,12 @@ export interface ProductResponseModel {
   category: string;
 }
 
-export interface ProductResponseModel {
+export interface PaginatedProductResponseModel {
   meta: Meta;
   links: Links;
   products: ProductResponseModel[];
 }
 
 export interface ProductResponse extends ResponseModel {
-  data?: ProductResponseModel;
+  data?: PaginatedProductResponseModel;
 }
