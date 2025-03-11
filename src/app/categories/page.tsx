@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { Grid, Stack, Typography, Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
+import { Add } from "@mui/icons-material";
 import { createCategory, getCategories } from "../../api/categoriesApi";
 import { CategoryModel } from "../../data-models/Category/CategoryModel";
 import { CategoryRequestModel } from "../../data-models/Category/CategoryRequestModel";
-import { Grid, Stack, Typography, Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import CategoryItem from "../../components/molecules/CategoryItem";
 
 const CatgoriesPage = () => {
   const [categories, setCategories] = useState<CategoryModel[]>([]);
@@ -72,7 +73,11 @@ const CatgoriesPage = () => {
         {
           categories.map((category, index) =>
             <Grid item xs={12} md={6} key={index}>
-              <Typography>{category.name}</Typography>
+              <CategoryItem
+                category={category}
+                onEdit={(category) => console.log(category)}
+                onDelete={(label) => console.log(label)}
+              />
             </Grid>
           )
         }
