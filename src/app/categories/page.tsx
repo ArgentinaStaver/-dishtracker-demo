@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Grid, Stack, Typography, Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { createCategory, deleteCategoryByLabel, getCategories, updateCategory } from "../../api/categoriesApi";
+import { createCategory, deleteCategoryByLabel, updateCategory } from "../../api/categoriesApi";
 import { CategoryModel } from "../../data-models/Category/CategoryModel";
 import { CategoryRequestModel } from "../../data-models/Category/CategoryRequestModel";
 import CategoryItem from "../../components/molecules/CategoryItem";
+import { CategoriesContext } from "../../context/categories";
 
 const CatgoriesPage = () => {
-  const [categories, setCategories] = useState<CategoryModel[]>([]);
+  const { categories, refetchCategories } = useContext(CategoriesContext);
+  
   const [categoryToEdit, setCategoryToEdit] = useState<CategoryModel | null>(null);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
@@ -29,16 +31,12 @@ const CatgoriesPage = () => {
     const { status } = await createCategory(categoryPayload);
 
     if (status === 201) {
-      fetchCategories();
+      refetchCategories();
       toast.success("Category succesfully created");
     } else {
       toast.error("Error by creating the category");
     }
   }
-
-  const fetchCategories = () => getCategories()
-    .then((response) => setCategories(response.data.categories))
-    .catch(() => toast.error('Error fetching categories'));
 
   const handleUpdateCategory = async (category: CategoryModel) => {
     if (!categoryToEdit) return;
@@ -51,7 +49,7 @@ const CatgoriesPage = () => {
     const { status } = await updateCategory(categoryToEdit.label, categoryPayload);
 
     if (status === 200) {
-      fetchCategories();
+      refetchCategories();
       toast.success("Category succesfully updated");
     } else {
       toast.error("Error by updating the category");
@@ -64,7 +62,7 @@ const CatgoriesPage = () => {
         const { status } = await deleteCategoryByLabel(label);
 
         if (status === 200) {
-          fetchCategories();
+          refetchCategories();
           toast.success("Category successfully deleted!");
         } else if (status === 400) {
           toast.error("Category is in use and can't be deleted");
@@ -79,7 +77,7 @@ const CatgoriesPage = () => {
   }
 
   useEffect(() => {
-    fetchCategories();
+    refetchCategories();
   }, []);
 
   return (
