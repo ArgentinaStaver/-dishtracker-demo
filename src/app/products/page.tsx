@@ -12,6 +12,7 @@ import { CategoriesContext } from "../../context/categories";
 import { createProduct, deleteProductByLabel, getProducts, updateProduct } from "../../api/productsApi";
 import ProductItem from "../../components/molecules/ProductItem";
 
+
 const ProductsPage = () => {
   const { categories } = useContext(CategoriesContext);
 
@@ -63,7 +64,7 @@ const ProductsPage = () => {
 
     try {
       const { status } = await updateProduct(productToEdit.label, productPayload);
-  
+
       if (status === 200) {
         fetchProducts();
         toast.success("Product successfully updated");
@@ -77,21 +78,21 @@ const ProductsPage = () => {
   };
 
   const handleDeleteProduct = async (label: string) => {
-     if (window.confirm("Do you really want to delete the product?")) {
-            try {
-            const { status } = await deleteProductByLabel(label);
-        
-            if (status === 200) {
-              fetchProducts();
-              toast.success("Product successfully deleted!");
-            } else {
-              toast.error("Error deleting the product");
-            }
-            } catch (error) {
-            console.error("Delete product error:", error);
-            toast.error("An unexpected error occurred while deleting the product");
-            }
+    if (window.confirm("Do you really want to delete the product?")) {
+      try {
+        const { status } = await deleteProductByLabel(label);
+
+        if (status === 200) {
+          fetchProducts();
+          toast.success("Product successfully deleted!");
+        } else {
+          toast.error("Error deleting the product");
         }
+      } catch (error) {
+        console.error("Delete product error:", error);
+        toast.error("An unexpected error occurred while deleting the product");
+      }
+    }
   };
 
   useEffect(() => {
@@ -172,10 +173,10 @@ const ProductsPage = () => {
             <InputLabel id="select-label">Categories</InputLabel>
             <Select
               labelId="select-label"
-              defaultValue={productToEdit?.label || ''}
+              defaultValue={productToEdit?.label.split('.')[0] || ''}
               required
               margin="dense"
-              id="categoryLabel"
+              id="category"
               name="category"
               fullWidth
               variant="standard"
