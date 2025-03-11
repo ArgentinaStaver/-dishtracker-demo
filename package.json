@@ -5,11 +5,17 @@
     "dev": "next dev"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^5.16.4",
+    "@mui/material": "^5.16.4",
     "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.8.2",
     "next": "14.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-redux": "^8.1.2"
+    "react-redux": "^8.1.2",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@types/node": "^22.13.9",

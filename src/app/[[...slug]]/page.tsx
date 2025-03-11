@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect } from "react";
-import { useGateway } from "../GatewayProvider";
-import { gatewayApi } from "../store";
+import { useGateway } from "../../GatewayProvider";
+import { gatewayApi } from "../../store";
 
 export default function Page() {
   const { isLoading } = useGateway();
@@ -22,7 +22,6 @@ export default function Page() {
       console.log(`${numProducts} products enabled`);
     }
   }, [loadingEnabled]);
-
 
   return (
     <>
