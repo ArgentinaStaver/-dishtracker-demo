@@ -42,6 +42,17 @@ export const getCategories = async (): Promise<CategoryResponse> => {
   }
 };
 
+export const updateCategory = async (label: string, category: Partial<CategoryRequestModel>): Promise<CategoryResponse> => {
+  try {
+    const { data, status } = await axios.put(
+      `${baseURL}/api/v1/category/${label}`, category, { headers: headers });
+
+    return { data: mapCategoryResponseToModel(data), status };
+  } catch (error) {
+    return { status: (error as any).response.status };
+  }
+};
+
 export const deleteCategoryByLabel = async (label: string): Promise<ResponseModel> => {
   try {
     const { status } = await axios.delete(`${baseURL}/api/v1/category/${label}`, { headers: headers });
