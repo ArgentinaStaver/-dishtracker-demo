@@ -4,7 +4,7 @@ import { CameraGroupProductResponse } from "../data-models/CameraGroup/CameraGro
 import { CameraGroupModel, PaginatedCameraGroupProductsModel } from "../data-models/CameraGroup/CameraGroupModel";
 import mapCameraGroupProductResponseToModel from "../data-models/CameraGroup/mapCameraGroupResponseToModel";
 import { Links, Meta } from "../data-models/common/commonModels";
-import { CameraGroupProductRequestModel } from "../data-models/CameraGroup/CameraGroupRequestModel";
+import { CameraGroupProductPayload } from "../data-models/CameraGroup/CameraGroupRequestModel";
 import { ResponseModel } from "../data-models/ResponseModel";
 
 const baseURL = DEFAULT_GATEWAY_CONFIG.baseUrl;
@@ -45,10 +45,10 @@ export const getCameraGroupProducts = async (cameraGroupName: string): Promise<C
 };
 
 
-export const updateCameraGroupProduct = async (cameraGroupName: string, product: Partial<CameraGroupProductRequestModel>): Promise<ResponseModel> => {
+export const updateCameraGroupProduct = async (cameraGroupName: string, products: CameraGroupProductPayload): Promise<ResponseModel> => {
   try {
     const { data, status } = await axios.put(
-      `${baseURL}/api/v1/camera-group/${cameraGroupName}/product`, product, { headers: headers });
+      `${baseURL}/api/v1/camera-group/${cameraGroupName}/product`, products, { headers: headers });
 
     return { status };
   } catch (error) {

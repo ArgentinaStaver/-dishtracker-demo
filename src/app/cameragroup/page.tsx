@@ -58,13 +58,16 @@ const CGProductsPage = () => {
       return;
     }
 
-    const productPayload: Partial<CameraGroupProductRequestModel> = {
+    const productData: Partial<CameraGroupProductRequestModel> = {
       label: productToEdit.label,
       enabled: status === 'on',
     };
+    const payload = {
+      products: [productData],
+    };
 
     try {
-      const { status } = await updateCameraGroupProduct(cameraGroupName, productPayload);
+      const { status } = await updateCameraGroupProduct(cameraGroupName, payload);
 
       if (status === 200) {
         fetchCameraGroupProducts();
