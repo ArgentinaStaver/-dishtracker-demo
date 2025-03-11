@@ -16,13 +16,25 @@ const ProductItem = ({ product, status, onEdit, onDelete }: IProductItem) => {
   return (
     <Card elevation={3}>
       <CardContent>
-        <Stack alignItems={'center'} justifyContent={'flex-end'} direction={'row'} gap={1}>
-          <Typography flexGrow={1} variant="h5">{product.name}</Typography>
-          {typeof status !== "undefined" &&
-            <Typography flexGrow={1} variant="h5">{status === "active" ? "Active" : "Disabled"}</Typography>
+        <Stack direction="row" alignItems="center">
+          <Stack direction="column" spacing={1} flexGrow={1}>
+            <Typography variant="h5">{product.name}</Typography>
+            {typeof status !== "undefined" && (
+              <Typography sx={{ fontSize: '14px' }}>
+                {status === "active" ? "Active" : "Disabled"}
+              </Typography>
+            )}
+          </Stack>
+          <Button size="small" onClick={() => onEdit(product)}>
+            Edit
+          </Button>
+          {
+            typeof status === "undefined" && (
+              <Button size="small" color="error" onClick={() => onDelete(product.label)}>
+                Delete
+              </Button>
+            )
           }
-          <Button size="small" onClick={() => onEdit(product)}>Edit</Button>
-          <Button size="small" color="error" onClick={() => onDelete(product.label)}>Delete</Button>
         </Stack>
       </CardContent>
     </Card>

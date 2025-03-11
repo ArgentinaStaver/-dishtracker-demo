@@ -104,7 +104,7 @@ const ProductsPage = () => {
       <Grid container gap={2} margin='0 auto' maxWidth={"lg"} sx={{ padding: `24px 16px 0` }}>
         <Grid item xs={12}>
           <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
-            <Typography variant="h3">Products</Typography>
+            <Typography variant="h5">Products</Typography>
             <div>
               <Button
                 variant="contained"

@@ -87,7 +87,7 @@ const CatgoriesPage = () => {
       <Grid container gap={3} justifyContent={"center"} margin='0 auto' sx={{ padding: `24px 16px 0` }}>
         <Grid item xs={12} md={6}>
           <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
-            <Typography variant="h4">Categories</Typography>
+            <Typography variant="h5">Categories</Typography>
             <div>
               <Button
                 variant="contained"
@@ -130,7 +130,7 @@ const CatgoriesPage = () => {
             const formJson = Object.fromEntries((formData as any).entries());
 
             categoryToEdit ? handleUpdateCategory(formJson as CategoryModel) : handleCreateCategory(formJson as CategoryModel);
-            
+
             handleCloseDialog();
           },
         }}
