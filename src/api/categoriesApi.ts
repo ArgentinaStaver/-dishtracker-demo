@@ -4,6 +4,7 @@ import { CategoryResponse } from "../data-models/Category/CategoryResponseModel"
 import mapCategoryResponseToModel from "../data-models/Category/mapCategoryResponseToModel";
 import { PaginatedCategoryModel } from "../data-models/Category/CategoryModel";
 import { Links, Meta } from "../data-models/common/commonModels";
+import { ResponseModel } from "../data-models/ResponseModel";
 import { DEFAULT_GATEWAY_CONFIG, headers } from "../config";
 
 const baseURL = DEFAULT_GATEWAY_CONFIG.baseUrl;
@@ -40,3 +41,13 @@ export const getCategories = async (): Promise<CategoryResponse> => {
     };
   }
 };
+
+export const deleteCategoryByLabel = async (label: string): Promise<ResponseModel> => {
+  try {
+    const { status } = await axios.delete(`${baseURL}/api/v1/category/${label}`, { headers: headers });
+
+    return { status };
+  } catch (error) {
+    return { status: (error as any).response.status };
+  }
+}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Grid, Stack, Typography, Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { createCategory, getCategories } from "../../api/categoriesApi";
+import { createCategory, deleteCategoryByLabel, getCategories } from "../../api/categoriesApi";
 import { CategoryModel } from "../../data-models/Category/CategoryModel";
 import { CategoryRequestModel } from "../../data-models/Category/CategoryRequestModel";
 import CategoryItem from "../../components/molecules/CategoryItem";
@@ -21,14 +21,11 @@ const CatgoriesPage = () => {
     setOpenDialog(false);
   };
 
-  const handleCreateCategory = async (category: CategoryModel
-  ) => {
-    const categoryPayload: CategoryRequestModel = {
-      ...category,
-    };
+  const handleCreateCategory = async (category: CategoryModel) => {
+    const categoryPayload: CategoryRequestModel = { ...category };
 
-    const { status, data } = await createCategory(categoryPayload);
-    console.log(data);
+    const { status } = await createCategory(categoryPayload);
+
     if (status === 201) {
       fetchCategories();
       toast.success("Category succesfully created");
@@ -40,6 +37,26 @@ const CatgoriesPage = () => {
   const fetchCategories = () => getCategories()
     .then((response) => setCategories(response.data.categories))
     .catch(() => toast.error('Error fetching categories'));
+
+  const handleDeleteCategory = async (label: string) => {
+    if (window.confirm("Do you really want to delete the category?")) {
+      try {
+        const { status } = await deleteCategoryByLabel(label);
+
+        if (status === 200) {
+          fetchCategories();
+          toast.success("Category successfully deleted!");
+        } else if (status === 400) {
+          toast.error("Category is in use and can't be deleted");
+        } else {
+          toast.error("Error deleting the category");
+        }
+      } catch (error) {
+        console.error("Delete category error:", error);
+        toast.error("An unexpected error occurred while deleting the category");
+      }
+    }
+  }
 
   useEffect(() => {
     fetchCategories();
@@ -76,7 +93,7 @@ const CatgoriesPage = () => {
               <CategoryItem
                 category={category}
                 onEdit={(category) => console.log(category)}
-                onDelete={(label) => console.log(label)}
+                onDelete={(label) => handleDeleteCategory(label)}
               />
             </Grid>
           )

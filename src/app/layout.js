@@ -1,7 +1,8 @@
 'use client';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
-import {store} from '../store';
+import { store } from '../store';
 import { GatewayProvider } from '../GatewayProvider';
 
 export default function RootLayout({ children }) {
@@ -11,6 +12,7 @@ export default function RootLayout({ children }) {
         <Provider store={store}>
           <GatewayProvider>
             {children}
+            <ToastContainer />
           </GatewayProvider>
         </Provider>
       </body>
