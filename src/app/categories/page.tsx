@@ -8,11 +8,13 @@ import { createCategory, deleteCategoryByLabel, updateCategory } from "../../api
 import { CategoryModel } from "../../data-models/Category/CategoryModel";
 import { CategoryRequestModel } from "../../data-models/Category/CategoryRequestModel";
 import CategoryItem from "../../components/molecules/CategoryItem";
+import AtomButton from "../../components/atoms/Button/Button";
 import { CategoriesContext } from "../../context/categories";
+import { isValidLabel } from "../../utils/utils";
 
 const CatgoriesPage = () => {
   const { categories, refetchCategories } = useContext(CategoriesContext);
-  
+
   const [categoryToEdit, setCategoryToEdit] = useState<CategoryModel | null>(null);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
@@ -26,13 +28,18 @@ const CatgoriesPage = () => {
   };
 
   const handleCreateCategory = async (category: CategoryModel) => {
+    if (!isValidLabel(category.label)) {
+      toast.error("Invalid label format. Please adjust your input.");
+      return;
+    }
+
     const categoryPayload: CategoryRequestModel = { ...category };
 
     const { status } = await createCategory(categoryPayload);
 
     if (status === 201) {
       refetchCategories();
-      toast.success("Category succesfully created");
+      toast.success("Category successfully created");
     } else {
       toast.error("Error by creating the category");
     }
@@ -50,7 +57,7 @@ const CatgoriesPage = () => {
 
     if (status === 200) {
       refetchCategories();
-      toast.success("Category succesfully updated");
+      toast.success("Category successfully updated");
     } else {
       toast.error("Error by updating the category");
     }
@@ -163,7 +170,7 @@ const CatgoriesPage = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button type="submit">Save</Button>
+          <AtomButton type="submit" color="success" label="Save" />
         </DialogActions>
       </Dialog>
     </>

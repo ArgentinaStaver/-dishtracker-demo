@@ -11,6 +11,8 @@ import { ProductRequestModel } from "../../data-models/Product/ProductRequestMod
 import { CategoriesContext } from "../../context/categories";
 import { createProduct, deleteProductByLabel, getProducts, updateProduct } from "../../api/productsApi";
 import ProductItem from "../../components/molecules/ProductItem";
+import AtomButton from "../../components/atoms/Button/Button";
+import { isValidLabel, labelRegex } from "../../utils/utils";
 
 
 const ProductsPage = () => {
@@ -35,8 +37,14 @@ const ProductsPage = () => {
 
 
   const handleCreateProduct = async (product: ProductRequestModel) => {
+    const composedLabel = `${product.category}.${product.label}`;
 
-    const productPayload: ProductRequestModel = { ...product, label: `${product.category}.${product.label}` };
+    if (!isValidLabel(composedLabel)) {
+      toast.error("Invalid label format. Please adjust your input.");
+      return;
+    }
+
+    const productPayload: ProductRequestModel = { ...product, label: composedLabel };
 
     const { status } = await createProduct(productPayload);
 
@@ -46,7 +54,6 @@ const ProductsPage = () => {
     } else {
       toast.error("Error by creating the product");
     }
-
   };
 
   const handleUpdateProduct = async (product: ProductRequestModel) => {
@@ -213,7 +220,7 @@ const ProductsPage = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button type="submit">Save</Button>
+          <AtomButton type="submit" color="success" label="Save" />
         </DialogActions>
       </Dialog>
     </>
